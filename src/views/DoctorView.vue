@@ -1,7 +1,5 @@
 <template>
     <b-container>
-        default<br>
-        {{test}}<br>
         {{user}}<br>
     </b-container>
 </template>
@@ -22,7 +20,7 @@
         },
 
         mounted() {
-            console.log("PROPS - ", this.props);
+
         }
     }
 </script>

@@ -1,6 +1,5 @@
 <template>
     <b-container>
-
         <div class="list-head">
             <span class="list-head-title">
                 Врачи
@@ -27,20 +26,14 @@
                 </div>
             </b-list-group-item>
         </b-list-group>
-
-        <hr>
-
-        <DoctorView :user="{test:'ok'}" test=" TEST "></DoctorView>
-
-
     </b-container>
 </template>
 
 <script>
-    import DoctorView from "./DoctorView";
+    //import DoctorView from "./DoctorView";
     export default {
         name: "doctorsList",
-        components: {DoctorView},
+        //components: {DoctorView},
         data() {
             return{
                 doctors: [],
@@ -49,20 +42,16 @@
         },
 
         mounted() {
-            console.log(localStorage.user)
+            console.log(" ------- MOUNTED");
 
             if(localStorage.user) {
                 let user = JSON.parse(localStorage.user);
-                console.log(user);
 
                 this.axios.get("http://188.243.56.86:7777/list_users?key="+user.key.my_key)
                     .then(res => {
                         let data = res.data;
-                        console.log(data);
-
                         if(data.answer === 0) {
                             //this.errorMsg = data.Error[0].type;
-                            console.log("error")
                         } else {
                             this.doctors = data.data;
                         }
@@ -72,8 +61,34 @@
             } else {
                 this.router.push("login");
             }
+        },
 
+        beforeCreate() {
+            console.log(" ----- BEFORE CREATE ")
+        },
 
+        created() {
+            console.log(" ----- CREATED ")
+        },
+
+        beforeMount() {
+            console.log(" ----- BEFORE MOUNT ")
+        },
+
+        beforeUpdate() {
+            console.log(" ----- BEFORE UPDATE ")
+        },
+
+        updated() {
+            console.log(" ----- UPDATED ")
+        },
+
+        beforeDestroy() {
+            console.log(" ----- BEFORE DESTROY ")
+        },
+
+        destroyed() {
+            console.log(" ----- DESTROYED ")
         },
 
         methods: {
@@ -83,6 +98,20 @@
 </script>
 
 <style scoped>
+    .list-head {
+        background-color: rgba(0,0,0,.125);
+        padding: 10px;
+        border-radius: 3px 3px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .list-head-title {
+        font-weight: bold;
+        font-size: 1.3rem;
+    }
+
     .list-items {
         display: inline-block;
         width: 80%;

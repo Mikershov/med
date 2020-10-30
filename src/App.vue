@@ -7,16 +7,18 @@
       <router-link to="/doctors">Doctors</router-link>
     </div>
 
-    <transition name="fade" mode="out-in">
-      <router-view></router-view>
-    </transition>
+    <router-view></router-view>
 
   </div>
 </template>
 
 <style>
+html {
+  font-size: 16px;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
