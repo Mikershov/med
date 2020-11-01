@@ -1,7 +1,5 @@
 <template>
-    <b-container>
-        <div>{{errorMsg}}</div>
-
+    <b-container style="max-width: 500px;">
         <div>
             <b-form @submit.prevent="goLogin">
                 <b-form-group id="input-group-1" label="Имя:" label-for="input-1">
@@ -23,7 +21,10 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-button type="submit" variant="primary">Вход</b-button>
+                <b-button type="submit" variant="primary">
+                    Вход
+                    <b-spinner v-if="isLoadingData" small variant="light"></b-spinner>
+                </b-button>
             </b-form>
         </div>
     </b-container>
@@ -31,21 +32,19 @@
 
 <script>
     import md5 from 'md5';
+    import sse from "../mixins/showServerError";
 
     export default {
         name: "Login",
+        mixins: [sse],
 
         data() {
             return {
-                msg: "testOK",
-                errorMsg: "",
-                clickMsg: "",
-                clickCounter: 0,
-                loginText: "",
                 user: {
                     name: "",
                     pas: ""
-                }
+                },
+                isLoadingData: false
             }
         },
 
@@ -54,22 +53,24 @@
         },
 
         mounted() {
-            if(localStorage.getItem("user")) {
-                let user = JSON.parse(localStorage.getItem("user"));
-                console.log("user", user);
-            }
+
         },
 
         methods: {
             goLogin() {
+                this.isLoadingData = true;
+
                 let data = new FormData();
                 data.append("log", this.user.name);
                 data.append("pass", md5(this.user.pas));
+
                 this.axios.post("http://188.243.56.86:7777/check", data)
                     .then(res => {
+                        this.isLoadingData = false;
+
                         let data = res.data;
                         if(data.answer === 0) {
-                            this.errorMsg = data.Error[0].type;
+                            this.showServerError(data.Error);
 
                         } else {
                             let user = {
@@ -77,7 +78,9 @@
                                 info: data.info_user
                             };
                             user = JSON.stringify(user);
-                            localStorage.setItem("user", user)
+                            localStorage.setItem("user", user);
+
+                            this.$router.push("doctors");
                         }
                     })
                     .catch(res => { console.log("Ошибка", res) })

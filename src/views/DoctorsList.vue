@@ -2,11 +2,18 @@
     <b-container>
         <div class="list-head">
             <span class="list-head-title">
-                Врачи
+                Пользователи
             </span>
             <router-link v-if="admin" to="/doctor-add">
-                <b-button variant="primary">Добавить врача</b-button>
+                <b-button size="sm" variant="success">
+                    <b-icon icon="plus"></b-icon>
+                </b-button>
             </router-link>
+        </div>
+
+        <div class="spinner" v-if="isLoadingData">
+            <h5>Получение данных...</h5>
+            <b-spinner variant="success"></b-spinner>
         </div>
 
         <b-list-group >
@@ -16,12 +23,16 @@
                 </div>
 
                 <div class="list-btns">
-                    <router-link to="/doctor-edit">
-                        <b-button class="mr-1" size="sm" variant="primary">E</b-button>
+                    <router-link :to="{name:'DoctorEdit', params:{user:doctor}}">
+                        <b-button class="mr-1" size="sm" variant="primary">
+                            <b-icon icon="pencil-fill"></b-icon>
+                        </b-button>
                     </router-link>
 
-                    <router-link :to="{name:'DoctorView', params:{user:doctor, test:'ok'}}">
-                        <b-button class="" size="sm" variant="primary">S</b-button>
+                    <router-link :to="{name:'DoctorView', params:{user:doctor}}">
+                        <b-button class="" size="sm" variant="primary">
+                            <b-icon icon="eye-fill"></b-icon>
+                        </b-button>
                     </router-link>
                 </div>
             </b-list-group-item>
@@ -30,76 +41,46 @@
 </template>
 
 <script>
-    //import DoctorView from "./DoctorView";
+    //import showServerError from "../mixins/showServerError";
+    import sse from '../mixins/showServerError';
+
     export default {
+        mixins: [sse],
         name: "doctorsList",
-        //components: {DoctorView},
+
         data() {
             return{
                 doctors: [],
-                admin: true
+                admin: true,
+                isLoadingData: true
             }
         },
 
         mounted() {
-            console.log(" ------- MOUNTED");
+            let user = JSON.parse(localStorage.getItem("user"));
 
-            if(localStorage.user) {
-                let user = JSON.parse(localStorage.user);
+            this.axios.get("http://188.243.56.86:7777/list_users?key="+user.key.my_key)
+                .then(res => {
+                    console.log(res.data);
 
-                this.axios.get("http://188.243.56.86:7777/list_users?key="+user.key.my_key)
-                    .then(res => {
-                        let data = res.data;
-                        if(data.answer === 0) {
-                            //this.errorMsg = data.Error[0].type;
-                        } else {
-                            this.doctors = data.data;
-                        }
-                    })
-                    .catch(res => { console.log("Ошибка", res) })
+                    this.isLoadingData = false;
+                    let data = res.data;
 
-            } else {
-                this.router.push("login");
-            }
+                    if(data.answer === 1) {
+                        this.doctors = data.data;
+                    } else {
+                        this.showServerError(data.Error);
+                    }
+                })
+                .catch(res => { console.log("Ошибка", res) })
         },
-
-        beforeCreate() {
-            console.log(" ----- BEFORE CREATE ")
-        },
-
-        created() {
-            console.log(" ----- CREATED ")
-        },
-
-        beforeMount() {
-            console.log(" ----- BEFORE MOUNT ")
-        },
-
-        beforeUpdate() {
-            console.log(" ----- BEFORE UPDATE ")
-        },
-
-        updated() {
-            console.log(" ----- UPDATED ")
-        },
-
-        beforeDestroy() {
-            console.log(" ----- BEFORE DESTROY ")
-        },
-
-        destroyed() {
-            console.log(" ----- DESTROYED ")
-        },
-
-        methods: {
-
-        }
     }
 </script>
 
 <style scoped>
     .list-head {
-        background-color: rgba(0,0,0,.125);
+        background-color: #e6e8ea;
+        box-sizing: border-box;
         padding: 10px;
         border-radius: 3px 3px 0 0;
         display: flex;
@@ -114,13 +95,27 @@
 
     .list-items {
         display: inline-block;
-        width: 80%;
+        width: 75%;
         font-weight: normal;
         text-overflow: ellipsis;
     }
 
     .list-btns {
         display: inline-block;
-        width: 20%;
+        width: 25%;
+        text-align: center;
+    }
+
+    .navbar {
+        background-color: #e6e8ea !important;
+    }
+
+    .list-group-item:first-child {
+        border-radius: 0;
+    }
+
+    .spinner {
+        text-align: center;
+        margin: 50px 0 50px 0;
     }
 </style>

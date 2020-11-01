@@ -1,0 +1,101 @@
+<template>
+    <b-container>
+        <router-link to="doctors">
+            <b-button size="sm" class="back-btn mb-2" variant="primary">
+                <b-icon icon="caret-left-fill"></b-icon>
+            </b-button>
+        </router-link>
+
+        <span class="page-title">Обновление пользователя</span>
+
+        <DoctorForm :user="localUser" :is-new-user="false"></DoctorForm>
+
+        <b-button class="mt-2 mb-2" @click="userUpdate" variant="success">
+            Сохранить
+            <b-spinner small v-if="isLoadingData"></b-spinner>
+        </b-button>
+
+        <b-button class="mt-2 mb-2 ml-2" variant="success">
+            Сменить пароль
+        </b-button>
+    </b-container>
+</template>
+
+<script>
+    import DoctorForm from "../components/DoctorForm";
+    import sse from '../mixins/showServerError';
+
+    export default {
+        name: "DoctorEdit",
+
+        components: {DoctorForm},
+        mixins: [sse],
+
+        props: {
+            user: Object
+        },
+
+        data() {
+            return {
+                localUser: this.user?this.user:{},
+                key: "",
+                isLoadingData: false
+            }
+        },
+
+        mounted() {
+            if(!this.user) {
+                this.$router.push({name:"Doctors"});
+            }
+
+            this.key = JSON.parse(localStorage.getItem("user")).key.my_key;
+        },
+
+        methods: {
+            userUpdate() {
+                console.log("localUser", this.localUser);
+
+                this.isLoadingData = true;
+
+                let data = new FormData();
+                data.append("key", this.key);
+                data.append("FirstName", this.user.FirstName);
+                data.append("MiddlName", this.user.MiddlName);
+                data.append("SacondName", this.user.SacondName);
+                data.append("Birthday", this.user.Birthday);
+                data.append("ProfSpacial", this.user.ProfSpacial);
+                data.append("Doctor", this.user.Doctor);
+                data.append("Admin", this.user.Admin);
+                data.append("off", this.user.off);
+                data.append("id", this.user.id);
+
+                this.axios.patch("http://188.243.56.86:7777/update_users", data)
+                    .then(res => {
+                        let data = res.data;
+                        this.isLoadingData = false;
+
+                        console.log("DOC UPDATE - ",data);
+
+                        if(data.answer === 0) {
+                            this.showServerError(data.Error);
+                        } else {
+                            console.log("Пользователь обновлен");
+
+                            this.$bvToast.toast("Пользователь обновлен", {
+                                title: `Сообщение`,
+                                variant: "success",
+                                solid: true,
+                            })
+
+                            //this.$router.push("doctors");
+                        }
+                    })
+                    .catch(res => { console.log("Ошибка", res) })
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

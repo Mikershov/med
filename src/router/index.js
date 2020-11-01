@@ -33,13 +33,33 @@ const routes = [
     name: 'DoctorView',
     props: true,
     component: () => import('../views/DoctorView.vue')
-  }
-]
+  },
+  {
+    path: '/doctor-add',
+    name: 'DoctorsAdd',
+    component: () => import('../views/DoctorAdd.vue')
+  },
+  {
+    path: '/doctor-edit',
+    name: 'DoctorEdit',
+    props: true,
+    component: () => import('../views/DoctorEdit.vue')
+  },
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
+
+//auth check
+router.beforeEach((to, from, next) => {
+  if(to.name !== "Login" && !localStorage.getItem("user")) {
+    next({name:"Login"});
+  }
+
+  next();
+});
 
 export default router

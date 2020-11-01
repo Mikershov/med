@@ -9,12 +9,24 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 
-Vue.use(VueAxios, axios)
+import {BootstrapVueIcons} from "bootstrap-vue";
 
-Vue.config.productionTip = false
+//import showServerError from "./mixins/showServerError";
+//import authCheck from "./mixins/authCheck";
+
+//plugins
+Vue.use(VueAxios, axios);
+Vue.use(BootstrapVueIcons);
+
+//global mixins
+//Vue.mixin(showServerError);
+//Vue.mixin(authCheck);
+
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
