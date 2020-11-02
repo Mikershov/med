@@ -1,34 +1,33 @@
 <template>
     <b-container>
-        <router-link to="doctors">
-            <b-button size="sm" class="back-btn mb-2" variant="primary">
-                <b-icon icon="caret-left-fill"></b-icon>
-            </b-button>
-        </router-link>
+        <PageHeader title="Обновление пользователя" :rout="{name:'Doctors'}"></PageHeader>
 
-        <span class="page-title">Обновление пользователя</span>
+        <div class="m-2">&nbsp;</div>
 
         <DoctorForm :user="localUser" :is-new-user="false"></DoctorForm>
 
-        <b-button class="mt-2 mb-2" @click="userUpdate" variant="success">
-            Сохранить
-            <b-spinner small v-if="isLoadingData"></b-spinner>
-        </b-button>
+        <div class="text-center">
+            <b-button class="mt-2 mb-2" @click="userUpdate" variant="success">
+                Сохранить
+                <b-spinner small v-if="isLoadingData"></b-spinner>
+            </b-button>
 
-        <b-button class="mt-2 mb-2 ml-2" variant="success">
-            Сменить пароль
-        </b-button>
+            <b-button class="mt-2 mb-2 ml-2" variant="success">
+                Сменить пароль
+            </b-button>
+        </div>
     </b-container>
 </template>
 
 <script>
     import DoctorForm from "../components/DoctorForm";
     import sse from '../mixins/showServerError';
+    import PageHeader from "../components/PageHeader";
 
     export default {
         name: "DoctorEdit",
 
-        components: {DoctorForm},
+        components: {PageHeader, DoctorForm},
         mixins: [sse],
 
         props: {

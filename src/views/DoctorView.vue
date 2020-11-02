@@ -1,10 +1,6 @@
 <template>
     <b-container>
-        <router-link to="doctors">
-            <b-button size="sm" class="back-btn" variant="primary">
-                <b-icon icon="caret-left-fill"></b-icon>
-            </b-button>
-        </router-link>
+        <page-header title="Просмотр пользователя" :rout="{name:'Doctors'}"></page-header>
 
         <table v-if="user" class="table">
             <tr>
@@ -66,9 +62,10 @@
 </template>
 
 <script>
+    import PageHeader from "../components/PageHeader";
     export default {
         name: "DoctorView",
-
+        components: {PageHeader},
         props: {
             user: Object
         },
@@ -102,7 +99,5 @@
 </script>
 
 <style scoped>
-    .back-btn {
-        margin-bottom: 10px;
-    }
+    
 </style>

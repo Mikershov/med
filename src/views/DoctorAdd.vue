@@ -1,25 +1,17 @@
 <template>
     <b-container>
-        <b-navbar type="light" variant="light">
-            <b-nav-form>
-                <router-link :to="{name:'Doctors'}">
-                    <b-button size="sm" class="back-btn" variant="primary">
-                        <b-icon icon="caret-left-fill"></b-icon>
-                    </b-button>
-                </router-link>
+        <PageHeader title="Новый пользователь" :rout="{name:'Doctors'}"></PageHeader>
 
-                <b-nav-text>Новый пользователь</b-nav-text>
-            </b-nav-form>
-        </b-navbar>
-
-
+        <div class="m-2">&nbsp;</div>
 
         <DoctorForm :user="user" :is-new-user="true"></DoctorForm>
 
-        <b-button class="mb-2 mt-2" @click="userAdd" variant="success">
-            Добавить пользователя
-            <b-spinner small v-if="isLoadingData"></b-spinner>
-        </b-button>
+        <div class="text-center">
+            <b-button class="w-75 mb-2 mt-2" @click="userAdd" variant="success">
+                Добавить пользователя
+                <b-spinner small v-if="isLoadingData"></b-spinner>
+            </b-button>
+        </div>
     </b-container>
 </template>
 
@@ -27,10 +19,11 @@
     import DoctorForm from "../components/DoctorForm";
     import md5 from 'md5';
     import sse from '../mixins/showServerError';
+    import PageHeader from "../components/PageHeader";
 
     export default {
         name: "DoctorAdd",
-        components: {DoctorForm},
+        components: {PageHeader, DoctorForm},
         mixins: [sse],
 
         data() {

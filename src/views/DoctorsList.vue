@@ -5,8 +5,8 @@
                 Пользователи
             </span>
             <router-link v-if="admin" to="/doctor-add">
-                <b-button size="sm" variant="success">
-                    <b-icon icon="plus"></b-icon>
+                <b-button variant="success">
+                    <b-icon icon="person-plus-fill"></b-icon>
                 </b-button>
             </router-link>
         </div>
