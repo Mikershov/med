@@ -43,5 +43,9 @@
         text-align: center;
         font-weight: bold;
         color: rgba(0,0,0,.5);
+        font-size: 1.2rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <page-header title="Просмотр пользователя" :rout="{name:'Doctors'}"></page-header>
+        <page-header :title="user.Username" :rout="{name:'Doctors'}"></page-header>
 
         <table v-if="user" class="table">
             <tr>
@@ -99,5 +99,5 @@
 </script>
 
 <style scoped>
-    
+
 </style>

@@ -10,7 +10,6 @@
                                 v-model="user.Username"
                                 required
                                 :disabled="!isNewUser"
-                                placeholder="Логин"
                         ></b-form-input>
                     </td>
                 </tr>
@@ -23,7 +22,6 @@
                                 v-model="user.password"
                                 type="password"
                                 required
-                                placeholder="Пароль"
                         ></b-form-input>
                     </td>
                 </tr>
@@ -35,7 +33,6 @@
                                 id="input-5"
                                 v-model="user.SacondName"
                                 required
-                                placeholder="Фамилия"
                         ></b-form-input>
                     </td>
                 </tr>
@@ -46,7 +43,6 @@
                         <b-form-input
                                 id="input-3"
                                 v-model="user.FirstName"
-                                placeholder="Имя"
                         ></b-form-input>
                     </td>
                 </tr>
@@ -57,7 +53,6 @@
                         <b-form-input
                                 id="input-4"
                                 v-model="user.MiddlName"
-                                placeholder="Отчество"
                         ></b-form-input>
                     </td>
                 </tr>
@@ -68,7 +63,6 @@
                         <b-form-input
                                 id="input-6"
                                 v-model="user.Birthday"
-                                placeholder="Дата рождения"
                         ></b-form-input>
                     </td>
                 </tr>
@@ -79,7 +73,6 @@
                         <b-form-input
                                 id="input-7"
                                 v-model="user.ProfSpacial"
-                                placeholder="Специализация"
                         ></b-form-input>
                     </td>
                 </tr>
@@ -129,7 +122,6 @@
 
     .form-table td {
         padding: .5rem 0;
-        vertical-align: top;
     }
 
     .form-table td:first-child {

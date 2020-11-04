@@ -12,7 +12,7 @@
                 <b-spinner small v-if="isLoadingData"></b-spinner>
             </b-button>
 
-            <b-button class="mt-2 mb-2 ml-2" variant="success">
+            <b-button class="mt-2 mb-2 ml-2" disabled variant="success">
                 Сменить пароль
             </b-button>
         </div>
@@ -83,6 +83,7 @@
                             this.$bvToast.toast("Пользователь обновлен", {
                                 title: `Сообщение`,
                                 variant: "success",
+                                toaster: "b-toaster-top-center",
                                 solid: true,
                             })
 

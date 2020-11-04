@@ -14,29 +14,36 @@
         <div class="spinner" v-if="isLoadingData">
             <h5>Получение данных...</h5>
             <b-spinner variant="success"></b-spinner>
+            <b-skeleton class="mt-3" type="input"></b-skeleton>
+            <b-skeleton class="mt-3" type="input"></b-skeleton>
+            <b-skeleton class="mt-3" type="input"></b-skeleton>
+            <b-skeleton class="mt-3" type="input"></b-skeleton>
+            <b-skeleton class="mt-3" type="input"></b-skeleton>
+            <b-skeleton class="mt-3" type="input"></b-skeleton>
         </div>
 
-        <b-list-group >
-            <b-list-group-item v-for="doctor in doctors" :key="doctor.id">
-                <div class="list-items">
+        <div class="doctors-list">
+            <div class="doctors-list-item" v-for="doctor in doctors" :key="doctor.id">
+                <div class="list-name">
                     {{doctor.SacondName}} {{doctor.FirstName}} {{doctor.MiddlName}}
                 </div>
 
                 <div class="list-btns">
                     <router-link :to="{name:'DoctorEdit', params:{user:doctor}}">
-                        <b-button class="mr-1" size="sm" variant="primary">
+                        <b-button size="" variant="primary">
                             <b-icon icon="pencil-fill"></b-icon>
                         </b-button>
                     </router-link>
 
                     <router-link :to="{name:'DoctorView', params:{user:doctor}}">
-                        <b-button class="" size="sm" variant="primary">
+                        <b-button variant="primary">
                             <b-icon icon="eye-fill"></b-icon>
                         </b-button>
                     </router-link>
                 </div>
-            </b-list-group-item>
-        </b-list-group>
+            </div>
+        </div>
+
     </b-container>
 </template>
 
@@ -93,29 +100,39 @@
         font-size: 1.3rem;
     }
 
-    .list-items {
-        display: inline-block;
-        width: 75%;
-        font-weight: normal;
-        text-overflow: ellipsis;
-    }
-
-    .list-btns {
-        display: inline-block;
-        width: 25%;
-        text-align: center;
-    }
-
-    .navbar {
-        background-color: #e6e8ea !important;
-    }
-
-    .list-group-item:first-child {
-        border-radius: 0;
-    }
-
     .spinner {
         text-align: center;
         margin: 50px 0 50px 0;
+    }
+
+
+
+    .doctors-list {
+
+    }
+
+    .doctors-list-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 10px 10px 10px;
+        border: 1px solid #e6e8ea;
+        border-width: 1px 1px 0 1px;
+    }
+
+    .doctors-list-item:last-child {
+        border: 1px solid #e6e8ea;
+        border-radius: 3px;
+    }
+
+    .list-name {
+        display: flex;
+        width: calc(100% - 100px);
+        font-weight: normal;
+    }
+
+    .list-btns {
+        display: flex;
+        width: 100px;
+        justify-content: space-between;
     }
 </style>

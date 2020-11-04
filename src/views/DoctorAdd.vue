@@ -71,12 +71,9 @@
                         let data = res.data;
                         this.isLoadingData = false;
 
-                        console.log("DOC ADD - ",data);
-
                         if(data.answer === 0) {
                             this.showServerError(data.Error);
                         } else {
-                            console.log("Пользователь добавлен");
                             this.$router.push("doctors");
                         }
                     })

@@ -15,8 +15,9 @@ export default {
                 }
 
                 this.$bvToast.toast(vMsgNodes, {
-                    title: `Ошибка`,
+                    title: "Ошибка",
                     variant: "danger",
+                    toaster: "b-toaster-top-center",
                     solid: true,
                 })
             });

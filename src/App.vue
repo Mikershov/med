@@ -11,7 +11,9 @@
       <router-link to="/doctors">Doctors</router-link>
     </div>
 
-    <router-view></router-view>
+    <transition name="fade" mode="out-in">
+      <router-view class="view"></router-view>
+    </transition>
 
   </div>
 </template>
@@ -31,6 +33,23 @@
 </script>
 
 <style>
+  .fade-enter-active,
+  .fade-leave-active {
+    transition-property: all;
+    transition-duration: 0.3s;
+  }
+
+  .fade-enter-active {
+    transition-delay: 0s;
+  }
+
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+
   html {
     font-size: 16px;
   }
@@ -64,5 +83,22 @@
     border-radius: .2rem;
     color: #000;
     font-size: 1.1rem;
+  }
+
+  /*toast*/
+  .b-toaster.b-toaster-top-center .b-toaster-slot, .b-toast, .toast {
+    max-width: 500px;
+  }
+
+  .toast-header {
+    font-size: 1.2rem;
+  }
+
+  .toast-header .close{
+    font-size: 2rem;
+  }
+
+  .toast-body {
+    font-size: 1rem;
   }
 </style>
