@@ -1,5 +1,5 @@
 <template>
-    <b-container style="max-width: 500px;">
+    <b-container style="max-width: 500px; margin-top: 15px">
         <div>
             <b-form @submit.prevent="goLogin">
                 <b-form-group id="input-group-1" label="Имя:" label-for="input-1">
@@ -77,10 +77,18 @@
                                 key: data.info_key,
                                 info: data.info_user
                             };
-                            user = JSON.stringify(user);
-                            localStorage.setItem("user", user);
 
-                            this.$router.push("doctors");
+                            console.log(user);
+
+                            localStorage.setItem("user", JSON.stringify(user));
+
+                            if(user.info.Admin === 1) {
+                                console.log("Admin");
+                                this.$router.push({name:"Doctors"});
+                            } else if(user.info.Doctor === 1) {
+                                console.log("Doc");
+                                this.$router.push({name:"Patients"});
+                            }
                         }
                     })
                     .catch(res => { console.log("Ошибка", res) })

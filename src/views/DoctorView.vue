@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <page-header :title="user.Username" :rout="{name:'Doctors'}"></page-header>
+        <page-header v-if="user" :title="user.Username" :rout="{name:'Doctors'}"></page-header>
 
         <table v-if="user" class="table">
             <tr>

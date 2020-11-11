@@ -1,22 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/login',
@@ -45,7 +36,12 @@ const routes = [
     props: true,
     component: () => import('../views/DoctorEdit.vue')
   },
+  {
+    path: "*",
+    component: () => import('../views/Page404.vue'),
+  },
 ];
+
 
 const router = new VueRouter({
   mode: 'history',
@@ -53,10 +49,18 @@ const router = new VueRouter({
   routes
 });
 
-//auth check
+
+//проверки доступа
 router.beforeEach((to, from, next) => {
-  if(to.name !== "Login" && !localStorage.getItem("user")) {
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  if(to.name !== "Login" && !user) {
     next({name:"Login"});
+  }
+
+  //все по юзерам
+  if((to.name === "Doctors" || to.name === "DoctorView" || to.name === "DoctorEdit" || to.name === "DoctorsAdd") && user.info.Admin !== 1) {
+    next({name:"Home"});
   }
 
   next();

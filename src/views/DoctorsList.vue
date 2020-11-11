@@ -53,17 +53,21 @@
 
     export default {
         mixins: [sse],
-        name: "doctorsList",
+        name: "DoctorsList",
 
         data() {
             return{
                 doctors: [],
                 admin: true,
-                isLoadingData: true
+                isLoadingData: true,
             }
         },
 
         mounted() {
+
+        },
+
+        activated() {
             let user = JSON.parse(localStorage.getItem("user"));
 
             this.axios.get("http://188.243.56.86:7777/list_users?key="+user.key.my_key)
@@ -81,6 +85,10 @@
                 })
                 .catch(res => { console.log("Ошибка", res) })
         },
+
+        deactivated() {
+
+        }
     }
 </script>
 
@@ -108,7 +116,7 @@
 
 
     .doctors-list {
-
+        margin-bottom: 15px;
     }
 
     .doctors-list-item {

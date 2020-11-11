@@ -60,10 +60,12 @@
                 <tr>
                     <td>Дата рождения</td>
                     <td>
-                        <b-form-input
-                                id="input-6"
-                                v-model="user.Birthday"
-                        ></b-form-input>
+                        <input v-model="user.Birthday"
+                               id="input-6"
+                               type="text"
+                               placeholder="гггг-мм-дд"
+                               v-VueMaskDirective="'####-##-##'"
+                               class="form-control">
                     </td>
                 </tr>
 
@@ -96,14 +98,29 @@
                         </b-form-radio-group>
                     </td>
                 </tr>
+
+                <tr v-if="!isNewUser">
+                    <td>Заблокирован</td>
+                    <td class="text-center">
+                        <b-form-radio-group id="off" name="Off" v-model="user.off">
+                            <b-form-radio class="mr-5" v-model="user.off" value="1">Да</b-form-radio>
+                            <b-form-radio v-model="user.off" value="0">Нет</b-form-radio>
+                        </b-form-radio-group>
+                    </td>
+                </tr>
             </table>
         </b-form>
     </div>
 </template>
 
 <script>
+    import { VueMaskDirective } from 'v-mask';
+
     export default {
         name: "DoctorForm",
+
+        directives: {VueMaskDirective},
+
         props: {
             user: Object,
             isNewUser: Boolean

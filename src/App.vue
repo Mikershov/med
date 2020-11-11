@@ -1,18 +1,32 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <b-button size="sm" @click="logout">
-        <b-icon icon="box-arrow-left"></b-icon>
-      </b-button> |
+    <div v-if="user" id="nav">
+      <div class="logout">
+        <b-button variant="danger" v-if="user" size="sm" @click="logout">
+          <b-icon icon="box-arrow-left"></b-icon>
+        </b-button>
+      </div>
 
-      <router-link to="/">Home</router-link> |
-      <!--<router-link to="/about">About</router-link> |-->
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/doctors">Doctors</router-link>
+      <div class="links">
+        <router-link to="/">Пациенты</router-link> |
+        <router-link to="/doctors">Врачи</router-link>
+      </div>
+
+      <div class="settings">
+        <b-button variant="info" size="sm">
+          <b-icon icon="question-circle"></b-icon>
+        </b-button>
+
+        <b-button variant="success" size="sm">
+          <b-icon icon="gear"></b-icon>
+        </b-button>
+      </div>
     </div>
 
     <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
+      <keep-alive include="DoctorsList">
+        <router-view class="view"></router-view>
+      </keep-alive>
     </transition>
 
   </div>
@@ -21,6 +35,12 @@
 <script>
   export default {
     name: "App",
+
+    data() {
+      return {
+        user: JSON.parse(localStorage.getItem("user"))
+      }
+    },
 
     methods: {
       logout() {
@@ -33,21 +53,27 @@
 </script>
 
 <style>
-  .fade-enter-active,
-  .fade-leave-active {
-    transition-property: all;
-    transition-duration: 0.3s;
-  }
 
-  .fade-enter-active {
-    transition-delay: 0s;
-  }
+  .fade-leave {
 
-  .fade-enter,
+  }
   .fade-leave-active {
+    transition: all 0.3s ease;
+  }
+  .fade-leave-to {
     opacity: 0;
-    transform: translateX(100%);
+    transform: scale(1.01);
   }
+
+
+  .fade-enter {
+    opacity: 0;
+    transform: scale(1.01);
+  }
+  .fade-enter-active {
+    transition: all .3s ease;
+  }
+
 
 
   html {
@@ -55,6 +81,10 @@
   }
 
   #app {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    overflow: hidden;
     font-family: Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -62,8 +92,10 @@
   }
 
   #nav {
+    display: flex;
     padding: 10px;
-    text-align: center;
+    background-color: #eaeaea;
+    align-items: center;
   }
 
   #nav a {
@@ -73,6 +105,22 @@
 
   #nav a.router-link-exact-active {
     color: #42b983;
+  }
+
+  .logout {
+    width: 37px;
+  }
+
+  .links {
+    width: calc(100% - 137px);
+    display: flex;
+    justify-content: center;
+  }
+
+  .settings {
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
   }
 
   .page-title {
