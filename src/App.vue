@@ -1,27 +1,30 @@
 <template>
   <div id="app">
-    <div v-if="user" id="nav">
-      <div class="logout">
-        <b-button variant="danger" v-if="user" size="sm" @click="logout">
-          <b-icon icon="box-arrow-left"></b-icon>
-        </b-button>
-      </div>
 
-      <div class="links">
-        <router-link to="/">Пациенты</router-link> |
-        <router-link to="/doctors">Врачи</router-link>
-      </div>
+    <b-container v-if="isAuth">
+      <div id="nav">
+        <div class="logout">
+          <b-button variant="danger" @click="logout">
+            <b-icon icon="box-arrow-left"></b-icon>
+          </b-button>
+        </div>
 
-      <div class="settings">
-        <b-button variant="info" size="sm">
-          <b-icon icon="question-circle"></b-icon>
-        </b-button>
+        <div class="links">
+          <router-link to="/">Главная</router-link>
+          <router-link to="/doctors">Врачи</router-link>
+        </div>
 
-        <b-button variant="success" size="sm">
-          <b-icon icon="gear"></b-icon>
-        </b-button>
+        <div class="settings">
+          <b-button @click="help" variant="info">
+            <b-icon icon="question-circle"></b-icon>
+          </b-button>
+
+          <b-button @click="settings" variant="success">
+            <b-icon icon="gear"></b-icon>
+          </b-button>
+        </div>
       </div>
-    </div>
+    </b-container>
 
     <transition name="fade" mode="out-in">
       <keep-alive include="DoctorsList">
@@ -38,15 +41,46 @@
 
     data() {
       return {
-        user: JSON.parse(localStorage.getItem("user"))
+
       }
     },
 
     methods: {
       logout() {
-        console.log("exit");
-        localStorage.removeItem("user");
+        this.$store.commit("user_clear");
         this.$router.push({name:"Login"});
+      },
+
+      help() {
+        this.$bvModal.msgBoxOk('Нужна?', {
+          title: 'Справка или помощь',
+          size: 'xl',
+          okVariant: 'success',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          centered: false
+        })
+      },
+
+      settings() {
+        this.$bvModal.msgBoxOk('Смена пароля и личных данные, настройка каких-то еще параметров.', {
+          title: 'Настройки',
+          size: 'xl',
+          okVariant: 'success',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          centered: true
+        })
+      }
+    },
+
+    created() {
+      this.$store.commit("user_init");
+    },
+
+    computed: {
+      isAuth() {
+        return this.$store.getters.isAuth;
       }
     }
   }
@@ -93,28 +127,39 @@
 
   #nav {
     display: flex;
-    padding: 10px;
-    background-color: #eaeaea;
+    padding: 10px 0;
     align-items: center;
   }
 
-  #nav a {
-    font-weight: bold;
-    color: #2c3e50;
-  }
-
-  #nav a.router-link-exact-active {
-    color: #42b983;
-  }
-
   .logout {
-    width: 37px;
+    width: 46px;
   }
 
   .links {
-    width: calc(100% - 137px);
+    width: calc(100% - 146px);
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .links a {
+    font-weight: bold;
+    color: #2c3e50;
+    display: inline-block;
+    margin: 0 5px;
+    font-size: 1.2rem;
+    padding: 3px 5px;
+    border: 1px solid rgba(66, 185, 131, 0);
+    border-radius: 5px;
+  }
+
+  .links a.router-link-exact-active {
+    color: #42b983;
+    border-color: rgba(66, 185, 131, 0.3);
+  }
+
+  .links a:hover{
+    text-decoration: none;
   }
 
   .settings {
@@ -123,16 +168,9 @@
     justify-content: space-between;
   }
 
-  .page-title {
-    display: inline-block;
-    margin: 0 0 0 10px;
-    padding: .25rem .5rem;
-    background-color: rgba(0,0,0,.125);
-    border-radius: .2rem;
-    color: #000;
-    font-size: 1.1rem;
-  }
 
+
+  /*глобальные стили для всплывашек*/
   /*toast*/
   .b-toaster.b-toaster-top-center .b-toaster-slot, .b-toast, .toast {
     max-width: 500px;

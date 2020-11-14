@@ -48,10 +48,6 @@
             }
         },
 
-        props: {
-            pro1: String
-        },
-
         mounted() {
 
         },
@@ -79,8 +75,9 @@
                             };
 
                             console.log(user);
+                            //localStorage.setItem("user", JSON.stringify(user));
 
-                            localStorage.setItem("user", JSON.stringify(user));
+                            this.$store.commit("user_set", user);
 
                             if(user.info.Admin === 1) {
                                 console.log("Admin");

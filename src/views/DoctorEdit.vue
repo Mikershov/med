@@ -37,17 +37,14 @@
         data() {
             return {
                 localUser: this.user?this.user:{},
-                key: "",
                 isLoadingData: false
             }
         },
 
-        mounted() {
-            if(!this.user) {
-                this.$router.push({name:"Doctors"});
+        computed: {
+            key() {
+                return this.$store.getters.key
             }
-
-            this.key = JSON.parse(localStorage.getItem("user")).key.my_key;
         },
 
         methods: {
@@ -76,7 +73,7 @@
                         console.log("DOC UPDATE - ",data);
 
                         if(data.answer === 0) {
-                            this.showServerError(data.Error);
+                            data.Error?this.showServerError(data.Error):this.showServerError(data.error);
                         } else {
                             console.log("Пользователь обновлен");
 
