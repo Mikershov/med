@@ -36,8 +36,11 @@ export default new Vuex.Store({
 
   getters: {
     isAuth: state => !!state.user.info,
+    isAdmin: state => !!state.user.info.Admin,
+    isDoctor: state => !!state.user.info.Doctor,
+
+    user: state => state.user,
     key: state => state.user.key.my_key,
-    user: state => state.user
   },
 
   modules: {

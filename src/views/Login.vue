@@ -79,12 +79,12 @@
 
                             this.$store.commit("user_set", user);
 
-                            if(user.info.Admin === 1) {
-                                console.log("Admin");
-                                this.$router.push({name:"Doctors"});
-                            } else if(user.info.Doctor === 1) {
-                                console.log("Doc");
+                            if(user.info.Doctor === 1) {
                                 this.$router.push({name:"Patients"});
+                            } else if(user.info.Admin === 1) {
+                                this.$router.push({name:"Doctors"});
+                            } else {
+                                this.$router.push({name:"Login"});
                             }
                         }
                     })

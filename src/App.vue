@@ -10,8 +10,8 @@
         </div>
 
         <div class="links">
-          <router-link to="/">Главная</router-link>
-          <router-link to="/doctors">Врачи</router-link>
+          <router-link v-if="isDoctor" to="/patients">Пациенты</router-link>
+          <router-link v-if="isAdmin" to="/doctors">Врачи</router-link>
         </div>
 
         <div class="settings">
@@ -27,7 +27,7 @@
     </b-container>
 
     <transition name="fade" mode="out-in">
-      <keep-alive include="DoctorsList">
+      <keep-alive include="DoctorsList,PatientsList">
         <router-view class="view"></router-view>
       </keep-alive>
     </transition>
@@ -43,6 +43,10 @@
       return {
 
       }
+    },
+
+    mounted() {
+      console.log(JSON.parse(localStorage.getItem("user")))
     },
 
     methods: {
@@ -81,6 +85,14 @@
     computed: {
       isAuth() {
         return this.$store.getters.isAuth;
+      },
+
+      isAdmin() {
+        return this.$store.getters.isAdmin;
+      },
+
+      isDoctor() {
+        return this.$store.getters.isDoctor;
       }
     }
   }

@@ -1,33 +1,29 @@
 <template>
     <b-container>
-        <PageHeader title="Обновление пользователя" :rout="{name:'Doctors'}"></PageHeader>
+        <PageHeader title="Обновление пациента" :rout="{name:'Patients'}"></PageHeader>
 
         <div class="m-2">&nbsp;</div>
 
-        <DoctorForm :user="localUser" :is-new-user="false"></DoctorForm>
+        <PatientForm :user="localUser" :is-new-user="false"></PatientForm>
 
         <div class="text-center">
-            <b-button class="mt-2 mb-2" @click="userUpdate" variant="success">
+            <b-button class="mt-2 mb-2 w-50" @click="userUpdate" variant="success">
                 Сохранить
                 <b-spinner small v-if="isLoadingData"></b-spinner>
-            </b-button>
-
-            <b-button class="mt-2 mb-2 ml-2" disabled variant="success">
-                Сменить пароль
             </b-button>
         </div>
     </b-container>
 </template>
 
 <script>
-    import DoctorForm from "../components/DoctorForm";
-    import sse from '../mixins/showServerError';
-    import PageHeader from "../components/PageHeader";
+    import sse from '../../mixins/showServerError';
+    import PageHeader from "../../components/PageHeader";
+    import PatientForm from "../../components/PatientForm";
 
     export default {
-        name: "DoctorEdit",
+        name: "PatientEdit",
 
-        components: {PageHeader, DoctorForm},
+        components: {PatientForm, PageHeader},
         mixins: [sse],
 
         props: {
@@ -83,8 +79,6 @@
                                 toaster: "b-toaster-top-center",
                                 solid: true,
                             })
-
-                            //this.$router.push("doctors");
                         }
                     })
                     .catch(res => { console.log("Ошибка", res) })

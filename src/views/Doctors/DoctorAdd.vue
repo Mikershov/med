@@ -16,10 +16,10 @@
 </template>
 
 <script>
-    import DoctorForm from "../components/DoctorForm";
+    import DoctorForm from "../../components/DoctorForm";
     import md5 from 'md5';
-    import sse from '../mixins/showServerError';
-    import PageHeader from "../components/PageHeader";
+    import sse from '../../mixins/showServerError';
+    import PageHeader from "../../components/PageHeader";
 
     export default {
         name: "DoctorAdd",
@@ -40,13 +40,14 @@
                     Admin: 0,
                     off:0,
                 },
-                key: "",
                 isLoadingData: false
             }
         },
 
-        mounted() {
-            this.key = JSON.parse(localStorage.getItem("user")).key.my_key;
+        computed: {
+            key() {
+                return this.$store.getters.key
+            }
         },
 
         methods: {
