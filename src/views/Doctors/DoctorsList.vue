@@ -44,7 +44,6 @@
 
         data() {
             return{
-                doctors: [],
                 isLoadingData: true,
             }
         },
@@ -52,33 +51,21 @@
         computed: {
           key() {
               return this.$store.getters.key;
-          }
+          },
+
+            doctors() {
+                return this.$store.getters.doctors;
+            }
         },
 
         activated() {
-            this.axios.get("http://188.243.56.86:7777/list_users?key="+this.key)
-                .then(res => {
-                    this.isLoadingData = false;
-                    let data = res.data;
-
-                    if(data.answer === 1) {
-
-                        data.data.sort((a, b) => {
-                            if(a.off && !b.off) {
-                                return 1;
-                            } else if(!a.off && b.off) {
-                                return -1;
-                            }
-
-                            return a.SacondName > b.SacondName? 1:-1;
-                        });
-
-                        this.doctors = data.data;
-                    } else {
-                        this.showServerError(data.Error);
-                    }
+            this.$store.dispatch("doctors_load", {reload:true})
+                .catch((data) => {
+                    this.showServerError(data.Error);
                 })
-                .catch(res => { console.log("Ошибка", res) })
+                .finally(() => {
+                    this.isLoadingData = false;
+                })
         },
 
         deactivated() {

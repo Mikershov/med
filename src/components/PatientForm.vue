@@ -69,8 +69,8 @@
                     <td>Адрес</td>
                     <td>
                         <b-form-textarea
-                                id="adres"
-                                v-model="user.adres"
+                                id="Adres"
+                                v-model="user.Adres"
                                 rows="1"
                                 max-rows="3"
                         ></b-form-textarea>
@@ -90,7 +90,7 @@
                 <tr>
                     <td>Мед.Согласние</td>
                     <td class="text-center">
-                        <b-form-radio-group id="SoglasieMed" name="PersDastaSoglasie" v-model="user.SoglasieMed">
+                        <b-form-radio-group id="SoglasieMed" name="SoglasieMed" v-model="user.SoglasieMed">
                             <b-form-radio class="mr-5" v-model="user.SoglasieMed" value="1">Да</b-form-radio>
                             <b-form-radio v-model="user.SoglasieMed" value="0">Нет</b-form-radio>
                         </b-form-radio-group>
@@ -100,10 +100,7 @@
                 <tr>
                     <td>Врач</td>
                     <td>
-                        <b-form-input
-                                id="Doctor_id"
-                                v-model="user.Doctor_id"
-                        ></b-form-input>
+                        <b-form-select v-model="user.Doctor_id" :options="doctors"></b-form-select>
                     </td>
                 </tr>
             </table>
@@ -149,8 +146,14 @@
             isNewUser: Boolean
         },
 
+        created() {
+            this.$store.dispatch("doctors_load", {reload:false})
+        },
+
         computed: {
-            //форматирование для даты
+            doctors() {
+                return this.$store.getters.doctorsSelectList;
+            }
         }
     }
 </script>

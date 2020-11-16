@@ -51,28 +51,30 @@
 
                 let data = new FormData();
                 data.append("key", this.key);
+                data.append("Doctor_id", this.user.Doctor_id);
                 data.append("FirstName", this.user.FirstName);
                 data.append("MiddlName", this.user.MiddlName);
                 data.append("SacondName", this.user.SacondName);
                 data.append("Birthday", this.user.Birthday);
-                data.append("ProfSpacial", this.user.ProfSpacial);
-                data.append("Doctor", this.user.Doctor);
-                data.append("Admin", this.user.Admin);
-                data.append("off", this.user.off);
+                data.append("Sex", this.user.Sex);
+                data.append("Adres", this.user.Adres);
+                data.append("Phone", this.user.Phone);
+                data.append("Anamnes", this.user.Anamnes);
+                data.append("Diagnos", this.user.Diagnos);
+                data.append("PersDastaSoglasie", this.user.PersDastaSoglasie);
+                data.append("SoglasieMed", this.user.SoglasieMed);
                 data.append("id", this.user.id);
 
-                this.axios.patch("http://188.243.56.86:7777/update_users", data)
+                this.axios.patch("http://188.243.56.86:7777/update_pacient", data)
                     .then(res => {
                         let data = res.data;
                         this.isLoadingData = false;
 
-                        console.log("DOC UPDATE - ",data);
+                        console.log("PAT UPDATE - ",data);
 
                         if(data.answer === 0) {
                             data.Error?this.showServerError(data.Error):this.showServerError(data.error);
                         } else {
-                            console.log("Пользователь обновлен");
-
                             this.$bvToast.toast("Пользователь обновлен", {
                                 title: `Сообщение`,
                                 variant: "success",

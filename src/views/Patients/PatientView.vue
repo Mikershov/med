@@ -19,7 +19,7 @@
         <table class="table">
             <tr>
                 <td>Врач</td>
-                <td>{{localUser.Doctor_id}}</td>
+                <td>{{doctorName}}</td>
             </tr>
 
             <tr>
@@ -81,13 +81,17 @@
         },
 
         created() {
+            this.$store.dispatch("doctors_load", {reload:false});
+
             if(!this.$props.user) {
                 this.$router.push({name:"Patients"});
             }
         },
 
-        methods: {
-
+        computed: {
+          doctorName() {
+              return this.$store.getters.doctorNameById(this.user.Doctor_id);
+          }
         },
 
         filters: {
